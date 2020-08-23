@@ -1,0 +1,51 @@
+.header{
+
+    background-color: #7fffd4;
+    display : flex;
+    justify-content: center;
+    margin: 30px;
+    margin-bottom: 0;
+
+}
+
+.b{
+
+    display : flexbox;
+    justify-content: center;
+    margin: 30px;
+    margin-bottom: 0;
+    color: #7fffd4;
+    background-color: black;
+
+}
+
+.buttona{
+
+    background-color: #7fffd4; 
+    border: none;
+    color: black;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+*{
+    background-color: black;
+}
+
+h1{
+    color : black;
+    background-color: #7fffd4;
+}
+
+.k{
+    background-color: white;
+}
+
+.r{
+    background-color: black;
+    color: #7fffd4;
+}

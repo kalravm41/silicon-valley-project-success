@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+   
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+   
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAJ4Bmkcs2rAgvCdWhqAxO3oiCjGJn3P0U",
+          authDomain: "my-hospital-project.firebaseapp.com",
+          databaseURL: "https://my-hospital-project.firebaseio.com",
+          projectId: "my-hospital-project",
+          storageBucket: "my-hospital-project.appspot.com",
+          messagingSenderId: "675372441162",
+          appId: "1:675372441162:web:2183586e1b61c1338550b3"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+
+      <script>
+      function updateb(k,b,c,d){
+         var database = firebase.database();
+        var HospitalIndex = "Hospitals/" + k;
+        database.ref(HospitalIndex).update({
+            Latitude : b,
+            Longitude : c,
+            Type : d
+  });
+}
+// function retrievel(){
+// var database = firebase.database();
+// var ref = database.ref('Hospitals/');
+// ref.on('value',function(snapshot){
+//     snapshot.forEach(function(childSnapshot) {
+//         var data = childSnapshot.val();
+//         console.log(data);
+        
+//     });
+// });
+// }
+    </script>
+
+    <head>
+        <title>A Step Towards The Life</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <div class = 'header'>
+        <h1>A Step Towards life</h1>
+    </div>
+
+    <div class = 'b'>
+        <h2>Welcome,</h2>
+        <h2>To help you I have to know about you</h2>
+    </div>
+
+
+  
+
+
+<div class = 'b'>
+    <h2>can you please tell me what are you here for ?</h2>
+</div>
+<a href = "authority.html">
+<input 
+type="button"
+ value=" Do You want to register your Hospital ?" 
+ class = 'buttona'
+ onclick="retrievel();">
+</a>
+
+ <a href = "user.html">
+<input
+ type="button" 
+ value=" Do you want an help to get to an Hospital ?" 
+ class = 'buttona'>
+</a>
+
+</html>

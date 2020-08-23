@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+   
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+    <script src="hospitaldata.html"></script>
+   
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAJ4Bmkcs2rAgvCdWhqAxO3oiCjGJn3P0U",
+          authDomain: "my-hospital-project.firebaseapp.com",
+          databaseURL: "https://my-hospital-project.firebaseio.com",
+          projectId: "my-hospital-project",
+          storageBucket: "my-hospital-project.appspot.com",
+          messagingSenderId: "675372441162",
+          appId: "1:675372441162:web:2183586e1b61c1338550b3"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+
+      <script>
+      function updateb(k,b,c,l){
+         var database = firebase.database();
+        var HospitalIndex = "Users/" + k;
+        database.ref(HospitalIndex).update({
+            Name : k,
+            address : b,
+            Phone : c,
+            city : l
+  });
+}
+    </script>
+    <head>
+        <div class= "header">
+        <h1>user screen</h1>
+    </div>
+        <link rel="stylesheet" href="style.css">
+        <link rel="code" href="index.html">
+    </head>
+
+    <form>
+        <label class = "r" for="fname">Full Name:</label><br>
+        <input type="text" id="name" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">address:</label><br>
+        <input type="text" id="address" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Phone No.:</label><br>
+        <input type="number" id="phone" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">email:</label><br>
+        <input type="email" id="ki" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">password.:</label><br>
+        <input type="password" id="password" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">city:</label><br>
+        <input type="text" id="pincode" Name="fname" class = 'k' value=""><br>
+    </form>
+    <script>
+        var Name = document.getElementById("name");
+        var address = document.getElementById("address");
+        var phone = document.getElementById("phone");
+        var pincode = document.getElementById('pincode');
+        const auth = firebase.auth();
+        function signup(){
+            var email = document.getElementById("ki");
+            var password = document.getElementById('password');
+            const promise = auth.createUserWithEmailAndPassword(email.value,password.value);
+            promise.catch(e => alert(e.message));
+            alert('signed Up');
+        }
+        function signIn(){
+            var email = document.getElementById("ki");
+            var password = document.getElementById('password');
+            const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+            promise.catch(e => alert(e.message));
+            alert('signed In' + email);
+        }
+        function signout(){
+            var email = document.getElementById("ki");
+            var password = document.getElementById('password');
+            firebase.auth().signOut()
+            alert('Signed out'+email);
+        }
+
+        function p(){
+            location.replace("hospitaldata.html");
+        }
+
+        auth.onAuthStateChanged(function(user){
+            var email = document.getElementById("ki");
+            if(user){
+                var email= user.email;
+                alert('active user '+email);
+                p();
+            }
+            else{
+                alert("No active user "+ email);
+            }
+        });
+    </script>
+    
+    <input type="button" value="signup" class = 'buttona' onclick= "signup(); updateb(Name.value,address.value,phone.value,pincode.value);">
+    <input type="button" value="signIn" class = 'buttona' onclick= signIn();>
+    <input type="button" value="signOut" class = 'buttona' onclick= signout();>
+
+</html>

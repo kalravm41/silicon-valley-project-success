@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+   
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+   
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAJ4Bmkcs2rAgvCdWhqAxO3oiCjGJn3P0U",
+          authDomain: "my-hospital-project.firebaseapp.com",
+          databaseURL: "https://my-hospital-project.firebaseio.com",
+          projectId: "my-hospital-project",
+          storageBucket: "my-hospital-project.appspot.com",
+          messagingSenderId: "675372441162",
+          appId: "1:675372441162:web:2183586e1b61c1338550b3"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+
+      <script>
+      function updateb(k,b,c,d){
+         var database = firebase.database();
+        var HospitalIndex = "Hospitals/" + k;
+        database.ref(HospitalIndex).update({
+            Latitude : b,
+            Longitude : c,
+            Type : d
+  });
+}
+// var hospital=[];
+function retrievel(l){
+var database = firebase.database();
+var ref = database.ref('Hospitals/');
+ref.on('value',function(data){
+    var list = data.val();
+    for(var i in list){
+        list[i]['name']=i;
+        l.push(list[i]);
+}
+
+
+// var target = document.querySelectorAll('#target')[0];
+//         hospital.map(function(singleRec) {
+//             var rec = singleRec;
+
+//             var row = document.createElement('tr');
+//             row.innerHTML = '<td>' + rec.Name+ '</td><td>' + rec.pincode+ '</td><td>' + rec.Phone+ '</td>'
+
+//             target.appendChild(row)
+//         });
+  });
+}
+function retrievelu(b){
+    var database = firebase.database();
+    var ref = database.ref('Users/');
+    ref.on('value',function(data){
+        var list=data.val();
+        for(var i in list){
+            list[i]['name1']=i;
+            b.push(list[i]);
+        }
+        var target = document.querySelectorAll('#target1')[0];
+        User.map(function(singleRec) {
+            var rec = singleRec;
+
+            var row = document.createElement('tr');
+            row.innerHTML = '<td>' + rec.Name+ '</td><td>' + rec.pincode+ '</td><td>' + rec.Phone+ '</td>'
+
+            target.appendChild(row)
+        });
+    });
+}
+
+    </script>
+    <head>
+    <title>Hospital Data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class = 'header'>
+    <h1>Hospital Data</h1>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class = 'b'>
+ 
+    <script>
+         var hospital=[];
+        retrievel(hospital);
+        // var User=[];
+        // retrievelu(User); 
+        var user = [];
+        function l(){
+            var search = document.getElementById('search').value;
+            for(var i=0;i<hospital.length;i++){
+            if(search === hospital[i].pincode){
+                console.log(hospital[i])
+            }
+            }
+        }
+    function searchhospital(){
+        var search = document.getElementById('search').value.toUpperCase();
+        //console.log(search);
+        var database = firebase.database();
+        var ref = database.ref('Hospitals/');
+        ref.orderByChild('city').equalTo(search).on('child_added',function(snapshot){
+             user = snapshot.val();
+              console.log(user);
+        });
+        // ref.orderByChild('pincode').equalTo(search).on('child_added',function(snapshot){
+        //      user = snapshot.val();
+        //       console.log(user);
+        // });
+
+        console.log(user.Name);
+
+        var target = document.querySelectorAll('#target')[0];
+        var row = document.createElement('tr');
+            row.innerHTML = '<td>' + user.Name+ '</td><td>' + user.Phone+ '</td><td>'+user.address+'</td><td>'+user.Type+'</td><td>'+user.types+'</td>'
+
+            target.appendChild(row);
+    }
+            
+    </script>
+     <label class = "r" for="fname">The city in which you are at present:</label><br/>
+       <input type="text" id="search" class = 'k' onchange="searchhospital()"/>
+    <table border="4">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Phone number</td>
+                <td>address</td>
+                <td>Type of Hospital(private/government) </td>
+                <td>Type of Hospital</td>
+            </tr>
+        </thead>
+        <tbody id="target">
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+</div>
+</body>
+
+</html>

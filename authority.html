@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+   
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+   
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAJ4Bmkcs2rAgvCdWhqAxO3oiCjGJn3P0U",
+          authDomain: "my-hospital-project.firebaseapp.com",
+          databaseURL: "https://my-hospital-project.firebaseio.com",
+          projectId: "my-hospital-project",
+          storageBucket: "my-hospital-project.appspot.com",
+          messagingSenderId: "675372441162",
+          appId: "1:675372441162:web:2183586e1b61c1338550b3"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+
+      <script>
+      function updateb(k,b,c,d,l){
+         var database = firebase.database();
+        var HospitalIndex = "Hospitals/" + k;
+        database.ref(HospitalIndex).update({
+            Name : k,
+            address : b,
+            Phone : c, 
+            city : d.toUpperCase(),
+            about : l 
+  });
+}
+    </script>
+    <head>
+        <div class= "header">
+        <h1>Hospital information screen</h1>
+    </div>
+        <link rel="stylesheet" href="style.css">
+        <link rel="code" href="index.html">
+    </head>
+
+    <form>
+        <label class = "r" for="fname">Full Name of the Hospital:</label><br>
+       <input type="text" id="name" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">address:</label><br>
+        <input type="text" id="address" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">city:</label><br>
+        <input type="text" id="pincode" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Phone No.:</label><br>
+        <input type="number" id="phone" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Type of Hospital:</label><br>
+        <input type="text" id="type" Name="fname" class = 'k' value="Ex:- Multispeciality,special care,general,charitabletrst,others"><br>
+        <label class = "r" for="fname">Number of doctors working at your hospital:</label><br>
+        <input type="number" id="number of doctors" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Total number of beds in your hospital(including I.C.U and general ward):</label><br>
+        <input type="number" id="number of beds" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Hospital's registration number:</label><br>
+        <input type="number" id="registration number" Name="fname" class = 'k' value=""><br>
+        <label class = "r" for="fname">Hospital's email id:</label><br>
+        <input type="email" id="Hospital email" Name="fname" class = 'k' value=""><br> 
+        <label class = "r" for="fname">Hospital's email password:</label><br>
+        <input type="password" id="Hospital password" Name="fname" class = 'k' value=""><br> 
+        <label class = "r" for="fname">Name of the person filling this form:</label><br>
+        <input type="text" id="filler name" Name="fname" class = 'k' value=""><br> 
+        <label class = "r" for="fname">email id of the person filling this form:</label><br>
+        <input type="email" id="filler email" Name="fname" class = 'k' value=""><br> 
+        <label class = "r" for="fname">Type of hospital(government/private):</label><br>
+        <input type="text" id="government/private" Name="fname" class = 'k'><br>
+        <label class = "r" for="fname">Anything more about your hospital that you wanted to tell:</label><br>
+        <input type="text" id="Hospital description" Name="fname" class = 'k' value="about facilities your hospital have"><br>
+    </form>
+    <script>
+        var Name = document.getElementById("name");
+        var address = document.getElementById("address");
+        var phone = document.getElementById("phone");
+        var pincode = document.getElementById("pincode");
+        var des = document.getElementById('Hospital description');
+        const auth = firebase.auth();
+        function signup(){
+            var email = document.getElementById("Hospital email");
+            var password = document.getElementById('Hospital password');
+            const promise = auth.createUserWithEmailAndPassword(email.value,password.value);
+            promise.catch(e => alert(e.message));
+            alert('signed Up');
+        }
+        function signIn(){
+            var email = document.getElementById("Hospital email");
+            var password = document.getElementById('Hospital password');
+            const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+            promise.catch(e => alert(e.message));
+            alert('signed In' + email);
+        }
+        function signout(){
+            var email = document.getElementById("Hospital email");
+            var password = document.getElementById('Hospital password');
+            auth.signOut();
+            alert('Signed out'+email);
+        }
+        function p(){
+            replace.location('hospitaldata.html')
+        }
+
+        auth.onAuthStateChanged(function(user){
+            var email = document.getElementById("ki");
+            if(user){
+                var email= user.email;
+                alert('active user ' +email);
+                p();
+            }
+            else{
+                alert("No active user"+ email);
+            }
+        });
+    </script>
+ 
+        <input type="button" value="signup" class = 'buttona' onclick= "signup(); updateb(Name.value,address.value,phone.value,pincode.value,des.value); p();">
+        <input type="button" value="signIn" class = 'buttona' onclick= signIn();>
+        <input type="button" value="signOut" class = 'buttona' onclick= signout();>
+
+</html>
